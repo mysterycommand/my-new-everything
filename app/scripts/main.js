@@ -1,15 +1,6 @@
-require([
-
-    'jquery'
-
-], function (
-
-    $
-
-) {
-
+require(['app', 'jquery', 'bootstrap'], function (app, $) {
     'use strict';
-    console.log('Running jQuery %s', $().jquery);
     // use app here
-
+    console.log(app);
+    console.log('Running jQuery %s', $().jquery);
 });
