@@ -8,10 +8,12 @@ Herein I will describe how to get everything setup for a new front-end project u
 
 Starting in an empty directory:
 
-    mkdir my-new-everything && cd my-new-everything
-    npm install generator-webapp
-    npm install generator-travis-ci
-    yo webapp
+```shell
+mkdir my-new-everything && cd my-new-everything
+npm install generator-webapp
+npm install generator-travis-ci
+yo webapp
+```
 
 You could install the generators globally with the `-g` flag if you like. Then do whatever you do to get it into Github. Probably, create the repository there, and then:
 
