@@ -64,9 +64,7 @@ The fix is to tell Travis in install compass before running your Grunt build scr
 - npm install -g grunt-cli bower
 ```
 
-Et voila … assuming your tests passed (mine did) you should have a new build in a gh-pages branch (I do) and visible to the world at:
-
-http://username.github.io/repository (I think). In this/my case: http://mysterycommand.github.io/my-new-everything works like a charm.
+Et voila … assuming your tests passed (mine did) you should have a new build in a gh-pages branch (I do) and visible to the world at something like http://username.github.io/repository (I think). In this/my case: http://mysterycommand.github.io/my-new-everything works like a charm.
 
 Next time, I'll describe my current solution for running Mocha/Chai tests within a RequireJS/AMD based project, and how to get them working both in the browser, and via the command line.
 
