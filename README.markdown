@@ -1,0 +1,1 @@
+[![Build Status](https://travis-ci.org/mysterycommand/my-new-everything.png?branch=master)](https://travis-ci.org/mysterycommand/my-new-everything)
