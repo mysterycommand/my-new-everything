@@ -92,9 +92,11 @@ Assuming you like the setup I described [here](https://coderwall.com/p/ndaemg) (
 3. Replace the entire contents of `test/index.html` with the contents of `app/index.html`.
 4. In the `head` of the new `test/index.html`, add references to the Mocha and Chai libraries installed with Bower:
 
-        <link rel="stylesheet" href="../app/bower_components/mocha/mocha.css">
-        <script src="../app/bower_components/mocha/mocha.js"></script>
-        <script src="../app/bower_components/chai/chai.js"></script>
+    ```html
+    <link rel="stylesheet" href="../app/bower_components/mocha/mocha.css">
+    <script src="../app/bower_components/mocha/mocha.js"></script>
+    <script src="../app/bower_components/chai/chai.js"></script>
+    ```
 
 5. Update the reference to the main stylesheet, to point at the generated CSS file. The `Gruntfile.js` will be updated to serve `.tmp` and `.`, so the relative path will be `../styles/main.css`.
 
@@ -104,20 +106,22 @@ Assuming you like the setup I described [here](https://coderwall.com/p/ndaemg) (
 2. Update the reference to RequireJS to point to `../app/bower_components/requirejs/require.js` and set it's `data-main` attribute to `spec/config`.
 3. Create `spec/config.js`, something like [this](https://github.com/mysterycommand/my-new-everything/blob/master/test/spec/config.js):
 
-        'use strict';
+    ```javascript
+    'use strict';
 
-        require.config({
-            baseUrl: '../../app/scripts/', // non-pathed dependencies should come from the app/scripts directory
-            deps: ['runner'], // load spec/runner.js by default
-            paths: {
-                spec: '../../test/spec', // path tests to this directory
-                runner: '../../test/spec/runner', // the main test runner, load all tests as dependencies
-                appConfig: '../../app/scripts/config' // the app's config file
-            },
-            shim: {
-                runner: ['appConfig'] // make runner depend on the app's config file
-            }
-        });
+    require.config({
+        baseUrl: '../../app/scripts/', // non-pathed dependencies should come from the app/scripts directory
+        deps: ['runner'], // load spec/runner.js by default
+        paths: {
+            spec: '../../test/spec', // path tests to this directory
+            runner: '../../test/spec/runner', // the main test runner, load all tests as dependencies
+            appConfig: '../../app/scripts/config' // the app's config file
+        },
+        shim: {
+            runner: ['appConfig'] // make runner depend on the app's config file
+        }
+    });
+    ```
 
 4. Create `spec/runner.js` something like [this](https://github.com/mysterycommand/my-new-everything/blob/master/test/spec/runner.js):
 
