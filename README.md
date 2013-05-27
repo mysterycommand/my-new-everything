@@ -17,38 +17,52 @@ yo webapp
 
 You could install the generators globally with the `-g` flag if you like. Then do whatever you do to get it into Github. Probably, create the repository there, and then:
 
-    git init
-    git add .
-    git commit -am 'Initial commit.'
-    git remote add origin https://github.com/mysterycommand/my-new-everything.git
-    git push -u origin master
+```shell
+git init
+git add .
+git commit -am 'Initial commit.'
+git remote add origin https://github.com/mysterycommand/my-new-everything.git
+git push -u origin master
+```
 
 Visit your repository's settings/hooks page in Github. Something like https://github.com/username/repository/settings/hooks in this/my case [this](https://github.com/mysterycommand/my-new-everything/settings/hooks). Scroll down to the Travis hook and follow the instructions under Install Notes (ymmv, I did this a while ago and don't remember if it was difficult or not). When you've got that going (Test Hook should send you an email). Then, back in your local repo/command line:
 
-    yo travis-ci:gh-pages
+```shell
+yo travis-ci:gh-pages
+```
 
 … answer some prompts, and if all went well:
 
-    grunt test
+```shell
+grunt test
+```
 
 Verify that the default tests pass, and then:
 
-    git add .
-    git commit -am 'Travis CI setup.'
+```shell
+git add .
+git commit -am 'Travis CI setup.'
+```
 
 At this point, tests may pass locally, but not on Travis. Here's the likely culprit:
 
-    Warning: You need to have Ruby and Compass installed and in your system PATH for this task to work. More info: https://github.com/gruntjs/grunt-contrib-compass Use --force to continue.
+```shell
+Warning: You need to have Ruby and Compass installed and in your system PATH for this task to work. More info: https://github.com/gruntjs/grunt-contrib-compass Use --force to continue.
+```
 
 The fix is to tell Travis in install compass before running your Grunt build script (you could also remove the compass/sass task(s?) from your Gruntfile, but I like Sass), so add this:
 
-    - gem update --system
-    - gem install compass
+```shell
+- gem update --system
+- gem install compass
+```
 
 … to your .travis.yml file, right between these two lines (34 and 35 at time of writing):
 
-    # install dependencies
-    - npm install -g grunt-cli bower
+```shell
+# install dependencies
+- npm install -g grunt-cli bower
+```
 
 Et voila … assuming your tests passed (mine did) you should have a new build in a gh-pages branch (I do) and visible to the world at:
 
@@ -69,8 +83,10 @@ Assuming you like the setup I described [here](https://coderwall.com/p/ndaemg) (
 
 1. Install Mocha and Chai as dev dependencies:
 
-        bower install mocha --save-dev
-        bower install chai --save-dev
+```shell
+    bower install mocha --save-dev
+    bower install chai --save-dev
+```
 
 2. Remove the `test/lib` directory.
 3. Replace the entire contents of `test/index.html` with the contents of `app/index.html`.
