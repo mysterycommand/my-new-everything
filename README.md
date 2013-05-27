@@ -83,10 +83,10 @@ Assuming you like the setup I described [here](https://coderwall.com/p/ndaemg) (
 
 1. Install Mocha and Chai as dev dependencies:
 
-```shell
+    ```shell
     bower install mocha --save-dev
     bower install chai --save-dev
-```
+    ```
 
 2. Remove the `test/lib` directory.
 3. Replace the entire contents of `test/index.html` with the contents of `app/index.html`.
