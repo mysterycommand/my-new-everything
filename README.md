@@ -125,31 +125,35 @@ Assuming you like the setup I described [here](https://coderwall.com/p/ndaemg) (
 
 4. Create `spec/runner.js` something like [this](https://github.com/mysterycommand/my-new-everything/blob/master/test/spec/runner.js):
 
-        /* global define */
-        define([
-            // All your tests go here.
-            'spec/app.test' // maybe it makes sense to add tests as dependencies in spec/config?
-        ], function () {
-            'use strict';
+    ```javascript
+    /* global define */
+    define([
+        // All your tests go here.
+        'spec/app.test' // maybe it makes sense to add tests as dependencies in spec/config?
+    ], function () {
+        'use strict';
 
-            window.console = window.console || function() {}; // protect from barfs
-            window.notrack = true; // don't track
-            window.mocha.run(); // kickoff the runner
-        });
+        window.console = window.console || function() {}; // protect from barfs
+        window.notrack = true; // don't track
+        window.mocha.run(); // kickoff the runner
+    });
+    ```
 
 5. Create `spec/app.test.js` something like [this](https://github.com/mysterycommand/my-new-everything/blob/master/test/spec/app.test.js):
 
-        /* global define, describe, it, should */
-        define(['app'], function (app) {
-            'use strict';
+    ```javascript
+    /* global define, describe, it, should */
+    define(['app'], function (app) {
+        'use strict';
 
-            // whatever tests are in here will run as soon as this module is loaded
-            describe('app', function () {
-                it('should exist', function() {
-                    should.exist(app);
-                });
+        // whatever tests are in here will run as soon as this module is loaded
+        describe('app', function () {
+            it('should exist', function() {
+                should.exist(app);
             });
         });
+    });
+    ```
 
 ### Update `Gruntfile.js` to serve and test everything
 
@@ -160,9 +164,11 @@ Make [these changes](https://github.com/mysterycommand/my-new-everything/commit/
 3. Update the `mocha:all` task options to `run: false` and `urls: ['http://localhost:<%= connect.options.port %>/test/index.html']`. Optionally set the reporter option: `reporter: 'Spec'`. Run is now triggered by `test/spec/runner.js` when it (and it's dependencies) have loaded. The tests are now located in `test/index.html` because we are serving the project root.
 4. Update the `requirejs:dist` task by adding to the options hash:
 
-        include: '../bower_components/requirejs/require',
-        mainConfigFile: yeomanConfig.app + '/scripts/config.js',
-        out: yeomanConfig.dist + '/scripts/app.min.js'
+    ```javascript
+    include: '../bower_components/requirejs/require',
+    mainConfigFile: yeomanConfig.app + '/scripts/config.js',
+    out: yeomanConfig.dist + '/scripts/app.min.js'
+    ```
 
 ### Nearly done!
 
@@ -178,43 +184,47 @@ However, that little commented out script tag referencing `scripts/app.min.js` d
 
 Here's `app/scripts/util/cleanup.js` in it's entirety (I'm not super familiar with Node, so if there's a better way to do this, please do tell). Also, please note: **This script is really specific to how I have things set up. I accept no responsibility if this destroys your project and ruins your life. USE AT YOUR OWN RISK!**:
 
-    'use strict';
+```javascript
+'use strict';
 
-    var fs = require('fs');
-    var filename = process.argv[2];
+var fs = require('fs');
+var filename = process.argv[2];
 
-    // Make sure we got a filename on the command line.
-    if (process.argv.length < 3) {
-        console.log('Usage: node ' + process.argv[1] + ' FILENAME');
-        process.exit(1);
-    }
+// Make sure we got a filename on the command line.
+if (process.argv.length < 3) {
+    console.log('Usage: node ' + process.argv[1] + ' FILENAME');
+    process.exit(1);
+}
 
-    // Read the file.
-    fs.readFile(filename, 'utf8', function(error, data) {
-        var file = data;
+// Read the file.
+fs.readFile(filename, 'utf8', function(error, data) {
+    var file = data;
 
-        // Find the old RequireJS script tag, and remove it.
-        var tag = '        <script data-main="scripts/config" src="bower_components/requirejs/require.js"></script>';
-        var tagIndex = file.indexOf(tag);
-        file = file.substring(0, tagIndex) + file.substring(tagIndex + tag.length + 1);
+    // Find the old RequireJS script tag, and remove it.
+    var tag = '        <script data-main="scripts/config" src="bower_components/requirejs/require.js"></script>';
+    var tagIndex = file.indexOf(tag);
+    file = file.substring(0, tagIndex) + file.substring(tagIndex + tag.length + 1);
 
-        // Assume the last comment in the HTML file is the one you want to remove.
-        // TODO: Make it a comment like build:uncomment or build:remove like `usemin` does.
-        var beginComment = file.lastIndexOf('<!-- ');
-        file = file.substring(0, beginComment) + file.substring(beginComment + 5);
+    // Assume the last comment in the HTML file is the one you want to remove.
+    // TODO: Make it a comment like build:uncomment or build:remove like `usemin` does.
+    var beginComment = file.lastIndexOf('<!-- ');
+    file = file.substring(0, beginComment) + file.substring(beginComment + 5);
 
-        var endComment = file.lastIndexOf(' -->');
-        file = file.substring(0, endComment) + file.substring(endComment + 4);
+    var endComment = file.lastIndexOf(' -->');
+    file = file.substring(0, endComment) + file.substring(endComment + 4);
 
-        // Write the edited file back into place.
-        fs.writeFile(filename, file, 'utf8', function(error) {
-            if (error) { throw error; }
-        });
+    // Write the edited file back into place.
+    fs.writeFile(filename, file, 'utf8', function(error) {
+        if (error) { throw error; }
     });
+});
+```
 
 Create this file, then add the following line to `.travis.yml` between after line 45 ([like here](https://github.com/mysterycommand/my-new-everything/commit/4ce12b61b05e7aff76d570563060fa054ed5665b)):
 
-    - node ../app/scripts/util/cleanup.js ../dist/index.html
+```javascript
+- node ../app/scripts/util/cleanup.js ../dist/index.html
+```
 
 This way, when Travis successfully builds your project, it will remove the script tag pointing at the Bower-loaded RequireJS library, and un-comment script tag pointing to the `r.js` optimized, and `rev`d JavaScript.
 
