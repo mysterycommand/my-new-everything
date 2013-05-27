@@ -232,5 +232,5 @@ This has been a really long Pro Tip, but I hope you find it useful. If anyone kn
 
 Also, I don't really know what's going on with this formatting … for a code-specific community to not get code formatting right is a pretty huge bummer. If you have any questions you can check out the whole, un-touched after this demo project here:
 
-https://github.com/mysterycommand/my-new-everything
-http://mysterycommand.github.io/my-new-everything/
+- https://github.com/mysterycommand/my-new-everything
+- http://mysterycommand.github.io/my-new-everything/
