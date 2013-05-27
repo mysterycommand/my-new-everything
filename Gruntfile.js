@@ -64,6 +64,7 @@ module.exports = function (grunt) {
                         return [
                             mountFolder(connect, '.tmp'),
                             mountFolder(connect, yeomanConfig.app),
+                            mountFolder(connect, '.'),
                             lrSnippet
                         ];
                     }
@@ -73,8 +74,9 @@ module.exports = function (grunt) {
                 options: {
                     middleware: function (connect) {
                         return [
-                            mountFolder(connect, '.tmp'),
-                            mountFolder(connect, 'test')
+                            // mountFolder(connect, '.tmp'),
+                            // mountFolder(connect, 'test')
+                            mountFolder(connect, '.')
                         ];
                     }
                 }
@@ -83,7 +85,10 @@ module.exports = function (grunt) {
                 options: {
                     middleware: function (connect) {
                         return [
-                            mountFolder(connect, yeomanConfig.dist)
+                            // mountFolder(connect, yeomanConfig.dist)
+                            mountFolder(connect, yeomanConfig.dist),
+                            mountFolder(connect, '.'),
+                            lrSnippet
                         ];
                     }
                 }
@@ -121,8 +126,11 @@ module.exports = function (grunt) {
         mocha: {
             all: {
                 options: {
-                    run: true,
-                    urls: ['http://localhost:<%= connect.options.port %>/index.html']
+                    // run: true,
+                    // urls: ['http://localhost:<%= connect.options.port %>/index.html']
+                    run: false,
+                    reporter: 'Spec',
+                    urls: ['http://localhost:<%= connect.options.port %>/test/index.html']
                 }
             }
         },
@@ -185,8 +193,12 @@ module.exports = function (grunt) {
                     // http://requirejs.org/docs/errors.html#sourcemapcomments
                     preserveLicenseComments: false,
                     useStrict: true,
-                    wrap: true
+                    wrap: true,
                     //uglify2: {} // https://github.com/mishoo/UglifyJS2
+                    //
+                    include: '../bower_components/requirejs/require',
+                    mainConfigFile: yeomanConfig.app + '/scripts/config.js',
+                    out: yeomanConfig.dist + '/scripts/app.min.js'
                 }
             }
         },
@@ -312,7 +324,8 @@ module.exports = function (grunt) {
                 exclude: ['modernizr']
             },
             all: {
-                rjsConfig: '<%= yeoman.app %>/scripts/main.js'
+                // rjsConfig: '<%= yeoman.app %>/scripts/main.js'
+                rjsConfig: '<%= yeoman.app %>/scripts/config.js'
             }
         }
     });
