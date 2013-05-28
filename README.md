@@ -44,27 +44,7 @@ git add .
 git commit -am 'Travis CI setup.'
 ```
 
-At this point, tests may pass locally, but not on Travis. Here's the likely culprit:
-
-```shell
-Warning: You need to have Ruby and Compass installed and in your system PATH for this task to work. More info: https://github.com/gruntjs/grunt-contrib-compass Use --force to continue.
-```
-
-The fix is to tell Travis in install compass before running your Grunt build script (you could also remove the compass/sass task(s?) from your Gruntfile, but I like Sass), so add this:
-
-```shell
-- gem update --system
-- gem install compass
-```
-
-… to your .travis.yml file, right between these two lines (34 and 35 at time of writing):
-
-```shell
-# install dependencies
-- npm install -g grunt-cli bower
-```
-
-Et voila … assuming your tests passed (mine did) you should have a new build in a gh-pages branch (I do) and visible to the world at something like http://username.github.io/repository (I think). In this/my case: http://mysterycommand.github.io/my-new-everything works like a charm.
+Et voila … assuming your tests passed (mine did) you should have a new build in a gh-pages branch (I do) and visible to the world at something like http://username.github.io/repository (The initial publishing of your gh-pages branch can take up to 10 minutes). In this/my case: http://mysterycommand.github.io/my-new-everything works like a charm.
 
 Next time, I'll describe my current solution for running Mocha/Chai tests within a RequireJS/AMD based project, and how to get them working both in the browser, and via the command line.
 
